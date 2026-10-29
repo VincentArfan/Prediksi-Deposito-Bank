@@ -31,12 +31,12 @@ with col1:
     st.subheader("👤 Profil Nasabah")
     age = st.number_input("Umur (Age)", min_value=18, max_value=100, value=35)
     job = st.selectbox("Pekerjaan (Job)", ['admin.', 'blue-collar', 'entrepreneur', 'housemaid', 'management', 'retired', 'self-employed', 'services', 'student', 'technician', 'unemployed', 'unknown'], index=4)
-    marital = st.selectbox("Status Pernikahan", ['divorced', 'married', 'single', 'unknown'], index=2)
-    education = st.selectbox("Pendidikan", ['basic.4y', 'basic.6y', 'basic.9y', 'high.school', 'illiterate', 'professional.course', 'tertiary', 'unknown'], index=6)
-    default = st.radio("Punya Kredit Macet? (Default)", ['no', 'yes', 'unknown'], index=0)
+    marital = st.selectbox("Status Pernikahan", ['divorced', 'married', 'single'], index=1)
+    education = st.selectbox("Pendidikan", ['primary', 'secondary', 'tertiary', 'unknown'], index=2)
+    default = st.radio("Punya Kredit Macet? (Default)", ['no', 'yes'], index=0)
     balance = st.number_input("Saldo Tahunan (Balance)", value=1500)
-    housing = st.radio("Cicilan Rumah (Housing)", ['no', 'yes', 'unknown'], index=1)
-    loan = st.radio("Pinjaman Pribadi (Loan)", ['no', 'yes', 'unknown'], index=0)
+    housing = st.radio("Cicilan Rumah (Housing)", ['no', 'yes'], index=1)
+    loan = st.radio("Pinjaman Pribadi (Loan)", ['no', 'yes'], index=0)
 
 with col2:
     st.subheader("📞 Riwayat Kontak Kampanye")
@@ -52,7 +52,7 @@ st.markdown("---")
 
 # Tombol Eksekusi Prediksi
 if st.button("🔮 Prediksi Sekarang", type="primary", use_container_width=True):
-    # 1. Menyusun Data Input (Gunakan kunci 'day' sesuai dataset asli)
+    # 1. Menyusun Data Input
     data_input = {
         'age': [age], 
         'job': [job], 
@@ -73,26 +73,28 @@ if st.button("🔮 Prediksi Sekarang", type="primary", use_container_width=True)
     
     df_in = pd.DataFrame(data_input)
     
-    # 2. Sisipkan Feature Engineering di sini jika ada pada Notebook
-    # Contoh (uncomment jika digunakan di notebook):
+    # 2. Sisipkan Feature Engineering (Aktifkan JIKA di notebook Anda membuatnya)
     # df_in['balance_per_age'] = df_in['balance'] / (df_in['age'] + 1e-5)
     # df_in['pdays_contacted'] = (df_in['pdays'] != -1).astype(int)
 
-    # 3. Encoding & Alignment
+    # 3. Encoding & Alignment Fitur
     df_encoded = pd.get_dummies(df_in)
-    df_encoded = df_encoded.reindex(columns=kolom_fitur, fill_value=0)
+    # Mengurutkan & mengisi kolom yang hilang dengan 0, lalu cast ke float
+    df_encoded = df_encoded.reindex(columns=kolom_fitur, fill_value=0).astype(float)
     
     # 4. Scaling & Predict
     df_scaled = scaler.transform(df_encoded)
     prob = float(model.predict(df_scaled, verbose=0)[0][0])
-    threshold = 0.5
+    
+    # Threshold disesuaikan (default 0.5 atau hasil tuning notebook Anda)
+    threshold = 0.5 
     
     # 5. Tampilan Hasil Prediksi
     st.subheader("📊 Hasil Prediksi")
     res_col1, res_col2 = st.columns(2)
     
     with res_col1:
-        if prob > threshold:
+        if prob >= threshold:
             st.success("🎉 **YES (Berlangganan)** — Nasabah berpotensi tinggi untuk mengambil deposito.")
         else:
             st.error("❌ **NO (Tidak Berlangganan)** — Nasabah cenderung tidak berminat mengambil deposito.")
