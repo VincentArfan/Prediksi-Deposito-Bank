@@ -1,5 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+*.log
+
+# Virtual Environment
 venv/
 .venv/
-__pycache__/
-*.pyc
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+
+# Environment variables
+.env
+
+# OS files
 .DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
