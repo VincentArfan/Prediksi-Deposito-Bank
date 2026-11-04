@@ -1,0 +1,11 @@
+{
+  "selected_model": "Tuned tanpa Class Weight",
+  "selected_architecture": "Tuned",
+  "uses_class_weight": false,
+  "threshold": 0.2,
+  "input_dim": 44,
+  "seed": 42,
+  "python_version": "3.13.18",
+  "tensorflow_version": "2.21.0",
+  "sklearn_version": "1.6.1"
+}

@@ -8,11 +8,8 @@ import plotly.graph_objects as go
 import streamlit as st
 import tensorflow as tf
 
-# =========================================================
-# 1. KONFIGURASI HALAMAN DAN CSS THEME-AWARE
-# =========================================================
 BASE_DIR = Path(__file__).resolve().parent
-ARTIFACT_DIR = BASE_DIR / "artifacts"
+ARTIFACT_DIR = BASE_DIR.parent / "Tugas_1" / "artifacts"
 
 st.set_page_config(
     page_title="Bank Deposit Predictor",
@@ -109,10 +106,6 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-
-# =========================================================
-# 2. MEMUAT MODEL DAN ARTEFAK PREPROCESSING
-# =========================================================
 @st.cache_resource
 def load_artifacts():
     required_files = [
@@ -152,10 +145,6 @@ except Exception as error:
     )
     st.stop()
 
-
-# =========================================================
-# 3. FUNGSI PREPROCESSING – HARUS SAMA DENGAN NOTEBOOK
-# =========================================================
 def prepare_input(raw_input):
     """
     Mengikuti preprocessing notebook:
@@ -198,10 +187,6 @@ def prepare_input(raw_input):
     scaled = scaler.transform(encoded).astype("float32")
     return scaled
 
-
-# =========================================================
-# 4. HEADER DAN SIDEBAR
-# =========================================================
 st.markdown(
     """
     <div class="hero">
@@ -252,10 +237,6 @@ with st.sidebar:
         threshold = official_threshold
         st.info(f"Threshold final digunakan: {threshold:.2f}")
 
-
-# =========================================================
-# 5. FORM INPUT NASABAH
-# =========================================================
 st.markdown("## Data Nasabah")
 st.markdown(
     '<p class="section-note">Lengkapi profil dan riwayat kampanye untuk memperoleh estimasi prediksi.</p>',
@@ -366,10 +347,6 @@ with st.form("prediction_form"):
         use_container_width=True,
     )
 
-
-# =========================================================
-# 6. HASIL PREDIKSI
-# =========================================================
 if submitted:
     raw_input = {
         "age": age,
@@ -478,10 +455,6 @@ if submitted:
         st.error("Prediksi gagal diproses. Periksa input dan artefak model.")
         st.exception(error)
 
-
-# =========================================================
-# 7. FOOTER
-# =========================================================
 st.divider()
 footer_left, footer_right = st.columns(2)
 with footer_left:
