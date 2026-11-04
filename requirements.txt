@@ -8,3 +8,4 @@ keras
 ucimlrepo
 joblib
 streamlit
+plotly
