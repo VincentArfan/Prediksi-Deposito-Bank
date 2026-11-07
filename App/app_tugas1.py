@@ -21,7 +21,6 @@ st.set_page_config(
 st.markdown(
     """
     <style>
-    /* Mengikuti warna tema aktif Streamlit (Light / Dark Mode) */
     .stApp,
     [data-testid="stAppViewContainer"],
     [data-testid="stMain"] {
@@ -38,7 +37,6 @@ st.markdown(
         padding-bottom: 2.5rem;
     }
 
-    /* Header sengaja tetap biru pada kedua tema */
     .hero {
         padding: 1.55rem 1.8rem;
         border-radius: 18px;
@@ -58,7 +56,6 @@ st.markdown(
         font-size: .98rem;
     }
 
-    /* Teks pendukung mengikuti warna tema aktif */
     .section-note {
         color: var(--text-color);
         opacity: .72;
@@ -66,7 +63,6 @@ st.markdown(
         margin-top: -.4rem;
     }
 
-    /* Container form dan panel mengikuti secondary background */
     div[data-testid="stVerticalBlockBorderWrapper"] {
         border-radius: 15px;
         border: 1px solid var(--border-color, rgba(128, 128, 128, .25));
@@ -74,7 +70,6 @@ st.markdown(
         color: var(--text-color);
     }
 
-    /* Metric card mengikuti tema aktif, tidak dipaksa putih */
     [data-testid="stMetric"] {
         background-color: var(--secondary-background-color);
         color: var(--text-color);
@@ -83,7 +78,6 @@ st.markdown(
         padding: 14px 16px;
     }
 
-    /* Elemen teks utama mengikuti warna teks tema */
     [data-testid="stMain"] p,
     [data-testid="stMain"] label,
     [data-testid="stMain"] small,
@@ -146,15 +140,6 @@ except Exception as error:
     st.stop()
 
 def prepare_input(raw_input):
-    """
-    Mengikuti preprocessing notebook:
-    - merekonstruksi fitur engineering,
-    - menyelaraskan kolom asli,
-    - imputasi memakai median/modus data train,
-    - one-hot encoding drop_first=True,
-    - menyelaraskan feature_columns,
-    - transform menggunakan scaler hasil training.
-    """
     frame = pd.DataFrame([raw_input])
 
     if "pdays_contacted" in metadata["raw_input_columns"]:
@@ -358,7 +343,6 @@ if submitted:
         "housing": housing,
         "loan": loan,
         "contact": contact,
-        # Penting: nama kolom harus sama dengan dataset/notebook.
         "day_of_week": day_of_week,
         "month": month,
         "campaign": campaign,
